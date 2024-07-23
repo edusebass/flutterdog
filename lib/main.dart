@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
               return CircularProgressIndicator();
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            } else if (snapshot.data == null || snapshot.data!.isEmpty) {
               return Text('No data available');
             }
 
@@ -55,7 +55,9 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    leading: Image.network(breeds[index].imageUrl),
+                    leading: breeds[index].imageUrl.isNotEmpty
+                        ? Image.network(breeds[index].imageUrl)
+                        : Icon(Icons.image),
                     title: Text(breeds[index].name),
                     subtitle: Text(breeds[index].temperament),
                   ),
